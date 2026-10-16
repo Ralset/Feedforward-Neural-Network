@@ -3,49 +3,51 @@
 #include <vector>
 
 #include "nn/ActivationFunctions.h"
+// #include "nn/Layer.h"
+// #include "nn/NeuralNetwork.h"
 
+using namespace std;
 using Eigen::MatrixXd;
+using Eigen::VectorXd;
 
 int main() {
     int L;
-    std::cout << "Enter the number of layers: ";
-    std::cin >> L;
-    std::vector<int> v(L + 1);
-    std::cout << "Input layer size: ";
-    std::cin >> v[0];
-    std::cout << "Enter the number of neurons for each layer: \n";
+    cout << "Enter the number of layers: ";
+    cin >> L;
+    vector<int> v(L + 1);
+    cout << "Input layer size: ";
+    cin >> v[0];
+    cout << "Enter the number of neurons for each layer: \n";
     for (int i = 1; i <= L; i++) {
-        std::cout << "Layer " << i << ": ";
-        std::cin >> v[i];
+        cout << "Layer " << i << ": ";
+        cin >> v[i];
     }
-    std::vector<MatrixXd> weights(L + 1);
-    std::vector<MatrixXd> biases(L + 1);
+    vector<MatrixXd> weights(L + 1);
+    vector<VectorXd> biases(L + 1);
     for (int i = 1; i <= L; i++) {
         weights[i] = MatrixXd::Random(v[i], v[i - 1]);
-        biases[i] = MatrixXd::Random(v[i], 1);
-        std::cout << "Weights for layer " << i + 1 << " -> layer " << i + 2
-                  << ": \n";
-        std::cout << weights[i] << std::endl;
+        biases[i] = VectorXd::Random(v[i]);
+        cout << "Weights for layer " << i + 1 << " -> layer " << i + 2
+             << ": \n";
+        cout << weights[i] << endl;
     }
     MatrixXd input(v[0], 1);
     for (int i = 0; i < v[0]; i++) {
-        std::cout << "Input value " << i + 1 << ": ";
-        std::cin >> input(i, 0);
+        cout << "Input value " << i + 1 << ": ";
+        cin >> input(i, 0);
     }
-    std::cout << "Input: \n" << input << std::endl;
+    cout << "Input: \n" << input << endl;
     // forward pass
-    std::vector<MatrixXd> activations(L + 1);
+    vector<VectorXd> activations(L + 1);
     activations[0] = input;
     for (int i = 1; i < L; i++) {
         activations[i] = weights[i] * activations[i - 1] + biases[i];
-        for (int j = 0; j < v[i]; j++)
-            activations[i](j, 0) = ActFun::ReLU(activations[i](j, 0));
+        ActFun::apply(ActivationFunctionType::ReLU, activations[i]);
     }
     activations[L] = weights[L] * activations[L - 1] + biases[L];
-    for (int j = 0; j < v[L]; j++)
-        activations[L](j, 0) = ActFun::sigmoid(activations[L](j, 0));
-    std::cout << "Output layer is:" << std::endl;
-    std::cout << activations[L] << std::endl;
+    ActFun::apply(ActivationFunctionType::Sigmoid, activations[L]);
+    cout << "Output layer is:" << endl;
+    cout << activations[L] << endl;
 
     return 0;
 }
