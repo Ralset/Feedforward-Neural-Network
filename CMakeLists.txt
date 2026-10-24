@@ -18,6 +18,8 @@ add_executable(Feedforward_Neural_Network)
 
 target_sources(Feedforward_Neural_Network
     PRIVATE
+        src/NeuralNetwork.cpp
+        src/Layer.cpp
         src/main.cpp
 )
 
