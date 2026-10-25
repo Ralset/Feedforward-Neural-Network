@@ -7,12 +7,14 @@
 
 class NeuralNetwork {
    public:
+    NeuralNetwork();
     NeuralNetwork(const std::vector<int>& layer_sizes);
     ~NeuralNetwork() = default;
     void AddLayer(const int layer_size);
-    // for testing its a global function
-    Eigen::VectorXd ForwardPass(const Eigen::VectorXd& input);
+    Eigen::VectorXd Predict(const Eigen::VectorXd& input);
 
    private:
+    int input_size = -1;
     std::vector<Layer> layers;
+    Eigen::VectorXd ForwardPass(const Eigen::VectorXd& input);
 };

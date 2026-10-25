@@ -6,21 +6,15 @@
 using namespace std;
 
 int main() {
-    int L;
-    cout << "Enter the number of layers: ";
-    cin >> L;
-    vector<int> v(L + 1);
-    cout << "Input layer size: ";
-    cin >> v[0];
-    cout << "Enter the number of neurons for each layer: \n";
-    for (int i = 1; i < L; i++) {
-        cout << "Layer " << i << ": ";
-        cin >> v[i];
-    }
-    cout << "Enter the number of neurons for output layer: ";
-    cin >> v[L];
+    NeuralNetwork nn;
 
-    NeuralNetwork nn(v);
+    nn.AddLayer(2);
+    nn.AddLayer(5);
+    nn.AddLayer(5);
+    nn.AddLayer(3);
+    nn.AddLayer(1);
 
+    Eigen::VectorXd input{{2.5, 30.0}};
+    cout << "Result of the pass: " << nn.ForwardPass(input) << endl;
     return 0;
 }
