@@ -15,6 +15,6 @@ int main() {
     nn.AddLayer(1);
 
     Eigen::VectorXd input{{2.5, 30.0}};
-    cout << "Result of the pass: " << nn.ForwardPass(input) << endl;
+    cout << "Result of the pass: " << nn.Predict(input) << endl;
     return 0;
 }
